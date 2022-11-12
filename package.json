@@ -1,0 +1,29 @@
+{
+  "name": "cors-course",
+  "version": "1.0.0",
+  "description": "CORS explanation with examples.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucashazardous/cors-course.git"
+  },
+  "keywords": [
+    "cors",
+    "express",
+    "api",
+    "rest"
+  ],
+  "author": "Lucas Hazardous",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lucashazardous/cors-course/issues"
+  },
+  "homepage": "https://github.com/lucashazardous/cors-course#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
