@@ -8,6 +8,19 @@ Cross-Origin Resource Sharing only applies in a browser context and is a securit
 
 CORS can be a protection mechanism against certain CSRF (Cross-site request forgery) attacks.
 
+# Preflight request
+
+[It is a request automatically issued by a browser.](https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request) For example, a client might be asking a server if it would allow a DELETE request, before sending a DELETE request from origin `https://foo.bar.org`:
+
+```
+OPTIONS /resource/foo
+Access-Control-Request-Method: DELETE
+Access-Control-Request-Headers: origin, x-requested-with
+Origin: https://foo.bar.org
+```
+
+Then server checks if `https://foo.bar.org` should send a request and sends that information to the browser which then decides whether to send the DELETE request or not.
+
 # CSRF example 1
 
 CSRF attack example which CORS protects against:
@@ -16,7 +29,7 @@ You're logged into bank.com on one tab and open evil.com is open in another tab.
 
 If there was no CORS mechanism, evil.com could make AJAX request to bank.com (this is known as a cross-origin request) without your knowledge. And along with the request, the browser will send the session cookie which was set by bank.com earlier when you logged in. With this session cookie, bank.com will think that you've made this request and will process it.
 
-With the CORS mechanism, the browser will first check whether bank.com accepts cross-origin requests or not. For this, the browser will first send an OPTIONS request to bank.com. The browser will only send the actual request if bank.com's CORS policy allows it.
+With the CORS mechanism, the browser will first check whether bank.com accepts cross-origin requests or not. For this, the browser will first send an OPTIONS request (preflight request) to bank.com. The browser will only send the actual request if bank.com's CORS policy allows it.
 
 Now, suppose evil.com tries to "bypass" this using a proxy. It will make an AJAX request to proxy.com which will forward the request to bank.com. But now, the browser will only send the cookies set by proxy.com. So, the bank.com's server will not get your session cookie and the attack will not work.
 
@@ -33,7 +46,7 @@ How to protect against such an attack? Use neither GET, HEAD, OPTIONS nor TRACE 
 
 # Frontend with separate backend scenario
 
-Suppose that app's frontend is hosted under f.com and backend consisting of REST API is hosted on a different server under b.com.Backend has CORS set to allow all origins to send requests to it.
+Suppose that app's frontend is hosted under f.com and backend consisting of REST API is hosted on a different server under b.com. Backend has CORS set to allow requests from all origins.
 
 Is there still a chance to protect against an attack described in **CSRF example 1**?
 Instead of using cookies to store session token we can use localStorage or sessionStorage.
