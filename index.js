@@ -19,8 +19,8 @@ app.get("/single", function (req, res, next) {
 })
 
 const errHandler = (err, req, res, next) => {
-    res.status(200).send("Not allowed by CORS")
-};
+    res.status(403).send(err.message)
+}
 
 app.get("/example", corsMiddleware, errHandler, function (req, res, next) {
     res.send("Hello")
